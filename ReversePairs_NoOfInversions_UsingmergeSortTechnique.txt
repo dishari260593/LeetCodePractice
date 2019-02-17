@@ -1,0 +1,42 @@
+class Solution {
+  public int countOfReversePairs;
+  public int reversePairs(int[] nums) {
+    countOfReversePairs=0;
+    mergeSort(nums,0,nums.length-1);
+    return countOfReversePairs;
+  }
+  public void mergeSort(int[] nums, int left, int right){
+    if(right<=left){
+      return;
+    }
+    int middle=left+(right-left)/2;
+    mergeSort(nums,left, middle);
+    mergeSort(nums,middle+1,right);
+
+    int countTemp=0;
+    for(int l=left,r=middle+1;l<=middle;){
+      if(r>right||(long)nums[l]<=2*(long)nums[r]){
+        l++;
+        countOfReversePairs+=countTemp;
+      }
+      else {
+        r++;
+        countTemp++;
+      }
+    }
+    int[] merged=new int[right-left+1];
+    for(int l=left,r=middle+1,k=0;l<=middle||r<=right;){
+      if((l<=middle) && (r>right||nums[l]<nums[r])){
+        merged[k++]=nums[l++];
+      }
+      else {
+        merged[k++]=nums[r++];
+      }
+    }
+    for(int i=0;i<merged.length;i++){
+      nums[left+i]=merged[i];
+    }
+
+
+  }
+}
