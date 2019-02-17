@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+  public int minDiffInBST(TreeNode root) {
+    if(root==null) {
+      return Integer.MAX_VALUE;
+    }
+    int leftDiff=minDiffHelper(root.left,root);
+    int rightDiff=minDiffHelper(root.right,root);
+    int minRootDiff=Math.min(leftDiff,rightDiff);
+    return Math.min(minRootDiff,Math.min(minDiffInBST(root.left),minDiffInBST(root.right)));
+  }
+  public int minDiffHelper(TreeNode rootChild,TreeNode root){
+
+    if (rootChild==null){
+      return Integer.MAX_VALUE;
+    }
+    else{
+      
+      int absDiff=Math.abs(rootChild.val-root.val);
+      int diff=0;  
+      if(rootChild.val>root.val){
+          diff=Math.min(absDiff,minDiffHelper(rootChild.left,root));
+      }
+      else if(rootChild.val<root.val){
+          diff=Math.min(absDiff,minDiffHelper(rootChild.right,root));
+      }  
+      return  diff;
+
+    }
+  }
+}
